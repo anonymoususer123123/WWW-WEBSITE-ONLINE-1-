@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Transfer</title>
+</head>
+<body>
+    <label for="inputText">Enter Text:</label>
+    <input type="text" id="inputText" name="inputText">
+    <button id="enterButton">ENTER</button>
+
+    <script>
+        document.getElementById('enterButton').addEventListener('click', function() {
+            const inputText = document.getElementById('inputText').value;
+            console.log('User input:', inputText);
+            
+            // Send inputText to the server
+            fetch('http://localhost:8080/input', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ inputText: inputText })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Input sent to server successfully');
+                } else {
+                    console.error('Failed to send input to server');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
